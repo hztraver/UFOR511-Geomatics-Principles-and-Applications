@@ -1,7 +1,7 @@
 
 ```{r echo=FALSE}
 yml_content <- yaml::read_yaml("chapterauthors.yml")
-author <- yml_content[["lab2shortname"]][["author"]]
+author <- yml_content[["GNSS-data"]][["author"]]
 ```
 
 # Collecting and processing GNSS data {#GNSS-data}
@@ -20,7 +20,7 @@ Oftentimes, you will need to collect and display your own data. There are many p
 
 ### Learning Objectives {-}
 
--   Learn how to plan for field data collection 
+-   Plan for field data collection 
 -   Use AvenzaMaps to collect GNSS readings 
 -   Assess the accuracy and precision of GNSS coordinates
 
@@ -28,7 +28,7 @@ Oftentimes, you will need to collect and display your own data. There are many p
 
 ### Deliverables {-}
 
-During this lab, you should be taking notes so that you are able to write a brief report about your study area and discuss the GNSS collection and processing procedure. You will be submitting a one-page writeup, described in detail toward the end of the lab.
+During this lab, you should be taking notes so that you are able to write a brief report about your study area and discuss the GNSS collection and processing procedure. You will be submitting a two-page report, described in detail toward the end of the lab.
 
 ------------------------------------------------------------------------
 
@@ -54,11 +54,11 @@ Your study area must:
 - Be a park or a greenspace
 - Have at least a portion of its ground visible using aerial imagery (e.g. Google Earth or an ArcGIS Pro basemap)
 
-**Step 1:**  Open ArcGIS Pro and turn on an imagery basemap (Map > Basemap > Imagery). Navigate to your proposed study area. You can do this by (a) dragging around your map, (b) putting coordinates into Go To XY, (c) typing in an address or park name into the Locate tool.
+**Step 1:** Open ArcGIS Pro and turn on an imagery basemap (Map > Basemap > Imagery). Navigate to your proposed study area. You can do this by (a) dragging around your map, (b) putting coordinates into Go To XY, (c) typing in an address or park name into the Locate tool.
 
 Before physically visiting your study area, you will need to verify that there are usable reference points in your chosen park. The reference points should be immovable, viewable from the sky and ground, and not tall (not trees or buildings). Additionally, you will be walking to your points – so they should be somewhere safely accessible and not too close or too far from each other.
 
-**Step 2:**Find at least four possible reference points (all at least 10 m from each other). You will create a new shapefile and populate it with these reference points. In Geoprocessing, find the Create Feature Class tool by searching for “Create Feature Class”. Save it to a findable location and give it a meaningful name (for this lab, it will be called “refpoints”). For the other options:
+**Step 2:** Find at least four possible reference points (all at least 10 m from each other). You will create a new shapefile and populate it with these reference points. In Geoprocessing, find the Create Feature Class tool by searching for “Create Feature Class”. Save it to a findable location and give it a meaningful name (for this lab, it will be called “refpoints”). For the other options:
 
 - **Geometry Type:** Point
 - **Has M:** No
@@ -118,7 +118,7 @@ Next, we will set the units to metric. In Settings, navigate to “Units of Meas
 
 *Important: Personal location is very sensitive information. You should not undertake this exercise at your home or share the coordinates or screenshots of your home location in Avenza Maps with anyone, including the instructor, TA, or other students in this course. Treat personal location information as any other private sensitive information and handle with respect and care.*
 
-**Step 5:** Avenza Maps requires you to load a map before being able to use the location service of your phone. You will import the georeferenced PDF map that you created in Task 1. There are several ways to do this in Avenza Maps, but probably the easiest is to download the PDF to your phone and then import directly from your phone. *Be aware that map size can be large and will consume cellular data if you are not connected to a wifi network.* A video on Canvas shows how to accomplish this on iOS using an iPhone and an example georeferenced map of the world. 
+**Step 5:** Avenza Maps requires you to load a map before being able to use the location service of your phone. You will import the georeferenced PDF map that you created in Task 1. There are several ways to do this in Avenza Maps, but probably the easiest is to download the PDF to your phone and then import directly from your phone. *Be aware that map size can be large and will consume cellular data if you are not connected to a wifi network.*
 
 If you ran into problems creating your georeferenced PDF, then you can use the provided georeferenced PDF on Canvas for the world. In the end, the actual map that you use is not important for collecting your GNSS data, but Avenza Maps requires a georeferenced map be loaded in the app.
 
@@ -134,7 +134,7 @@ If you ran into problems creating your georeferenced PDF, then you can use the p
 
 For this lab, we will consider the initial ArcGIS-created reference points as the "true" values and perform an accuracy assessment with that in mind.
 
-**Step 1:** Visually compare the Avenza-created Placemarks (called “Observed values” for the rest of the lab) with each other and ArcGIS reference points. How close/far are they from one another? You can use the measure tool to add values to this visual assessment. When you are comparing the observed values Page 10 of 12to each other, you are assessing precision, when you are comparing them to the “True” locations, you are assessing accuracy.
+**Step 1:** Visually compare the Avenza-created Placemarks (called “Observed values” for the rest of the lab) with each other and ArcGIS reference points. How close/far are they from one another? You can use the measure tool to add values to this visual assessment. When you are comparing the observed values to each other, you are assessing precision, when you are comparing them to the “True” locations, you are assessing accuracy.
 
 **Step 2:** Quantitatively determine the accuracy of the points. Add two columns in the Observed attribute table and populate them with the east and north values for each point. You should have the True values from your reference point attribute table. Export both tables and bring them into excel.
 
@@ -177,7 +177,7 @@ Planning **(10 points)**
 
 - Basic information about the study area – why it was chosen, where it is, etc. **(2 points)**
 - A description of each reference point – what is each reference point? **(2 points)**
-- A runthrough of the results from the GNSS planning tool. When is the ideal time to go out and why? Include screenshots from the planning tool (# of satellites, DOPs, ionosphere, skyplot) and interpret them. **(6 points)*
+- A runthrough of the results from the GNSS planning tool. When is the ideal time to go out and why? Include screenshots from the planning tool (# of satellites, DOPs, ionosphere, skyplot) and interpret them. **(6 points)**
 
 Data Collection **(5 points)**
 

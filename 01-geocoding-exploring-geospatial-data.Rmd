@@ -1,18 +1,21 @@
 ---
-editor_options: 
-  markdown: 
+editor_options:
+  markdown:
     wrap: 72
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r echo=FALSE}
 yml_content <- yaml::read_yaml("chapterauthors.yml")
-author <- yml_content[["lab1shortname"]][["author"]]
+author <- yml_content[["geocoding-exploring-geospatial-data"]][["author"]]
 ```
 
 # Geocoding and Exploring Geospatial Data {#geocoding-exploring-geospatial-data}
 
 Written by
-
 ```{r results='asis', echo=FALSE}
 cat(author)
 ```
@@ -23,7 +26,7 @@ Working with and manipulating your own geospatial data is essential for many geo
 
 ------------------------------------------------------------------------
 
-### Competencies in This Lab {.unnumbered}
+### Learning Objectives {.unnumbered}
 
 -   Query and extract geospatial data from an online portal
 -   Build a custom address locator using geospatial data
@@ -74,7 +77,7 @@ In this task, you will export a filtered table from a shapefile, and then you wi
 
 Sometimes, "lots" in cities are exceptionally large or are adjacent to more than one street. Because these lots only have one "true" address, urban foresters may make up addresses to designate more specific areas. Find the name of the column that designates whether or not the address for a tree was made up to associate the tree with a nearby lot. You are going to export just the data for trees that are assigned "Yes" in this column.
 
-**Step 2:** Right-click street-trees and select "Export Features." 
+**Step 2:** Right-click street-trees and select "Export Table." 
 
 - **Input Rows:** street-trees 
 - **Output Location:** Where you want the table to be saved 
@@ -83,7 +86,7 @@ Sometimes, "lots" in cities are exceptionally large or are adjacent to more than
 
 Where `Assigned` is equal to Y.
 
-**Step 3:** Open the attribute table for **AssignedTrees** and add a new text field to the data. On the top of the attribute table, there is a button that says "Add". The table will switch to field view. Name the field "Address" and select "Text" as the data type. Click "Save" in the top bar. Close "Field View" and return to the attribute table. Your new field should appear as the very last column in the dataset. Right-click the field and select "Calculate Field."
+**Step 3:** Open the attribute table for **AssignedTrees** and add a new text field to the data. On the top of the attribute table, there is a button that says "Add". The table will switch to field view. Name the field "Address", name the alias "Address", and select "Text" as the data type. Click "Save" in the top bar. Close "Field View" and return to the attribute table. Your new field should appear as the very last column in the dataset. Right-click the field and select "Calculate Field."
 
 The address locator you create in Task 3 requires addresses to be written in a specific way---street numbers and names must be in the same column. You will need to specify to ArcGIS that you are combining two strings (another designation for text data). Within the Fields menu under "Expression," double-click civic_numb. You will notice that the field below the equal sign is now populated with `!civic_numb!`.
 
@@ -190,21 +193,21 @@ Add **parks_polygon_representation** and a satellite basemap to your map (Map \>
 
 **Step 5:** Now that all of the park trees are input, we will investigate tree density per park to get an idea about which parks in Vancouver have the highest tree density and which have the lowest. To answer this question, you will need to know the area of each park and the number of trees within them. Park area and name are in the **parks_polygon_representation** layer, but not in the **parktrees** shapefile. This information can be added to **parktrees** through a spatial join.
 
-Right-click **parktrees**, mouse down to Joins and Relates \> Spatial Join: 
+Right-click **parks_polygon_representation**, mouse down to Joins and Relates \> Spatial Join: 
 
-- **Target Features:** parktrees 
-- **Join Features:** parks_polygon_representation 
+- **Target Features:** parks_polygon_representation 
+- **Join Features:** parktrees 
 - **Output Feature Class:** parks_numtrees 
 - **Join Operation:** Join one to one 
 - **Match Option:** Intersect
 
-Expand the Fields option and remove all of the output fields except for `area_ha`, `park_id`, `park_name`, and `park_url`. Click "OK".
+Click "OK".
 
 You should now have a park file with the number of trees (represented by JOIN_COUNT), along with the other park information.
 
-Add a new field called "treedensity". Be sure to select the correct data type--the data in this field will be continuous values and include decimals. Tree density is the ratio of trees to park area. We will do this calculation only for parks greater than or equal to one acre in size.
+Add a new field called "treedensity". Select float as the data type--the data in this field will be continuous values and include decimals. Tree density is the ratio of trees to park area. We will do this calculation only for parks greater than or equal to one hectare in size. 
 
-Using "Select By Attributes," select all of the parks with an area greater than or equal to 1 ha. Then, use calculate field to get the tree density for each selected park.
+Using "Select By Attributes," select all of the parks with an area greater than or equal to 1 ha. Then, calculate the treedensity field as `JOIN_COUNT / area_ha`.
 
 ##### Q11. How many parks in vancouver are greater than 1 ha in size? {.unnumbered}
 
@@ -222,7 +225,7 @@ The map will be of the neighbourhood for which you downloaded street tree data f
 
 Requirements: 
 
-- Parks symbolized by tree density 
+- Parks symbolized by tree density
 - Coordinate-created points and address-created points (symbolized differently from each other!) 
 - Roads symbolized - Necessary map components (title, legend, scale bar, north arrow, student name and number, coordinate system)
 

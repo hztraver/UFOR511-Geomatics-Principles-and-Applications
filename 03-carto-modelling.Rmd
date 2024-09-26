@@ -6,13 +6,12 @@ editor_options:
 
 ```{r echo=FALSE}
 yml_content <- yaml::read_yaml("chapterauthors.yml")
-author <- yml_content[["lab3shortname"]][["author"]]
+author <- yml_content[["carto-modelling"]][["author"]]
 ```
 
 # Cartographic Modelling {#carto-modelling}
 
 Written by
-
 ```{r results='asis', echo=FALSE}
 cat(author)
 ```
@@ -45,17 +44,17 @@ For this lab, you are using overlay and proximity tools to determine where in th
 
 **Step 1:** Download data.
 
-You will be downloading most of your data from the City of Vancouver Open Data Portal (CoV; <https://opendata.vancouver.ca/pages/home/>).
+You will be downloading most of your data from the City of Vancouver Open Data Portal (<https://opendata.vancouver.ca/pages/home/>).
 
-The datasets you will need are:
+The datasets you will need to download from the open data portal above are:
 
 -   Community Gardens and Food Trees (shapefile)
 -   Local Area Boundary (shapefile)
--   Census Local Area Profiles 2016(xls)
+-   Census Local Area Profiles 2016 (xls)
 
-The final dataset (Landuse 2016) can be found on GitHub. This shapefile was downloaded from Metro Vancouver's Open Data Catalogue; however, at least two of the polygons had errors and needed to be edited for the analysis to work properly.
+A fourth dataset (Landuse 2016) can be found on the course management system. This shapefile was downloaded from Metro Vancouver's Open Data Catalogue; however, at least two of the polygons had errors and needed to be edited for the analysis to work properly.
 
-Download all of the lab data and put it somewhere that you can find it again.
+Download all of the lab data and put it in a new ArcGIS Pro project folder.
 
 **Step 2:** Pre-process census data.
 
@@ -73,7 +72,7 @@ Show rows where Variable:
 
 Click OK.
 
-Be sure to either type the variable names EXACTLY as they appear, or select them from the dropdown menu in the Custom Autofilter window (the variables are alphabetized but there are *many* of them).
+Be sure to either type the variable names EXACTLY as they appear, or select them from the dropdown menu in the Custom Autofilter window (the variables are alphabetized but there are *many* of them). If the filter does not work, you can search for the columns using the control/command-f feature and manually select the appropriate rows.
 
 You should have only two rows of data, with IDs 1 and 3964. Copy the data and column names, create a new sheet, then Paste Special them transposed into the new sheet. The transpose option is underlined in red within the image below.
 
@@ -106,7 +105,7 @@ For the tool:
 
 Click OK.
 
-Open the attribute table of local-area-boundary.shp to verify that the join succeeded. If the join did not succeed, it is likely because the cells in census.csv did not exactly match those in local-area-boundary.shp. Double-check that the spacing is the same for both datasets.
+Open the attribute table of local-area-boundary.shp to verify that the join succeeded. If the join did not succeed, it is likely because the cells in census.csv did not exactly match those in local-area-boundary.shp. Double-check that the spacing is the same for both datasets. If the Arbutus-Ridge neighbourhood does not have a match, ensure that the "-" is present in both tables and manually enter it if it is missing. Your join should automatically update. 
 
 To redo the join, right-click the shapefile in Contents \> Joins and Relates.. \> Remove All Joins. Then repeat Step 3.
 
@@ -130,7 +129,7 @@ For the tool:
 -   **Input Rows:** Landuse2016
 -   **Selection Type:** New selection
 -   **+New Expression: Where** LU_code is equal to R100
--   **+Add Clause** And areaha is greater than 0.
+-   **+Add Clause** And areaha is greater than 0.1
 -   **+Add Clause** Or LU_Code is equal to U100
 -   **+Add Clause** And areaha is greater than 0.1
 
@@ -146,6 +145,8 @@ With these selected, you are going to run the "Identity" tool. For the tool:
 Click OK.
 
 Your result will have the same extent as **local-area-boundary.shp**, and will have polygons for each neighborhood and each capable location. There should be three unique values in LU_code: R100, U100, and no value (the cells should be blank). Change the symbology of resulting shapefile (by LU_code) and look at what you have; everything that has a blank LU_code is incapable.
+
+It is possible that the input will erroneously apply attributes from some Landuse2016 polygons to larger areas. Verify that there are no excessively large parcels, such as in the area of the Musqueam 2 reservation. Identify which landcover FID is causing the issue, and then manually de-select it before re-running the identity tool.
 
 Create a new field (of Data Type Short) called capable, and populate it with the number 1 for capable areas and the number 0 for incapable areas. This can be done using Select By Attributes and Calculate Field (once the selected polygons are populated with 1, you can switch the selection and populate the others with 0).
 
@@ -210,6 +211,8 @@ To scale the income values, you will divide the income values by the maximum inc
 
 `inc_suit = 1 – (med_hou_inc/max(med_hou_inc))`
 
+You may have to manually identify the maximum value in med_hou_inc by right clicking on the attribute and selecting "Explore Statistics".
+
 **Step 3:** Calculate suitability.
 
 Finally, the suitability and capability fields can be combined to determine overall suitability. Create one final field, named suitability (Type: Float). Suitability is determined by weighting each suitability metric -- a metric that is more important is given a larger weight. The total weight must add to 1.
@@ -254,7 +257,7 @@ b)  You can drag and drop the tools directly from their respective toolboxes wit
 
 For more help with ModelBuilder, use ArcGIS Help (Project \> Help \> ModelBuilder (in the search)).
 
-[https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/modelbuilderquick-tour.htm](https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/modelbuilderquick-tour.htm){.uri}
+[https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/modelbuilder-quick-tour.htm](https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/modelbuilder-quick-tour.htm){.uri}
 
 Your model should look similar to the one below.
 
